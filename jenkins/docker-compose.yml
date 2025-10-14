@@ -29,7 +29,7 @@ services:
       - jenkins-data:/var/jenkins_home
       - jenkins-docker-certs:/certs/client:ro
     ports:
-      - "9000:8080"
+      - "9090:8080"
       - "50000:50000"
     networks:
       - jenkins
