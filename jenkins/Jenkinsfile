@@ -18,8 +18,8 @@ pipeline {
                         go test -coverprofile=coverage.out -covermode=atomic ./... 
                         go test cover -html=coverage.out -o coverage.html
 
-                        mkdir -p reports
-                        mv coverage.html reports
+                        mkdir -p bugtracker-backend/reports
+                        mv coverage.html reports/
                     '''
                 }
             }
