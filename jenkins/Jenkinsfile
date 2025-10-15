@@ -115,7 +115,7 @@ pipeline {
             }
             steps {
                 dir('tests-e2e') {
-                    sh '''                        
+                    sh '''
                         npm ci
                         npx playwright test
                     '''
@@ -129,6 +129,22 @@ pipeline {
                         reportFiles: 'index.html',
                         reportName: 'Playwright E2E Test Report',
                     ]
+                }
+            }
+        }
+        stage('Performance Tests') {
+            agent {
+                docker {
+                    image `grafana/k6:latest`
+                    reuseNode true
+                    args '-u 0 --network=host --entrypoint=""'
+                }
+            }
+            steps {
+                dir('tests-perf') {
+                    sh '''
+                        k6 run script.js
+                    '''
                 }
             }
         }
