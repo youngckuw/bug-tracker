@@ -30,10 +30,11 @@ pipeline {
                             publishHTML target: [
                                 reportDir: 'bugtracker-backend/reports',
                                 reportFiles: 'coverage.html',
-                                reportName: 'Backend Coverage Report',
+                                reportName: 'Backend Coverage Report'
                             ]
                         }
                     }
+                }
                 stage('Unit Tests - Frontend') {
                     agent {
                         docker {
