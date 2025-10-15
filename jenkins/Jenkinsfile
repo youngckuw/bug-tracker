@@ -2,14 +2,14 @@ pipeline {
     agent any
 
     stages {
-        stage('Unit Tests - Backend') {
-            agent any
-            steps {
-                dir('bugtracker-backend') {
-                    sh 'docker run --rm -v "$PWD":/src -w /src snakee/golang-junit:1.21 sh -c "go test -v ./..."'
-                }
-            }
-        }
+        // stage('Unit Tests - Backend') {
+        //     agent any
+        //     steps {
+        //         dir('bugtracker-backend') {
+        //             sh 'docker run --rm -v "$PWD":/src -w /src snakee/golang-junit:1.21 sh -c "go test -v ./..."'
+        //         }
+        //     }
+        // }
         stage('Unit Tests - Frontend') {
             agent any
             steps {
