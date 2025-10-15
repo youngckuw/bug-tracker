@@ -12,7 +12,7 @@ pipeline {
             steps {
                 dir('bugtracker-backend') {
                     // sh 'docker run --rm -v "$PWD":/src -w /src snakee/golang-junit:1.21 sh -c "go test -v ./..."'
-                    sh '"go test -v ./..."'
+                    sh 'go test -v ./...'
                 }
             }
         }
