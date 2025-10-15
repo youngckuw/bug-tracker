@@ -16,7 +16,7 @@ pipeline {
                     sh '''
                         go test -v ./... 2>&1 | go-junit-report > test-results.xml
                         go test -coverprofile=coverage.out -covermode=atomic ./... 
-                        go test cover -html=coverage.out -o coverage.html
+                        go tool cover -html=coverage.out -o coverage.html
 
                         mkdir -p bugtracker-backend/reports
                         mv coverage.html reports/
