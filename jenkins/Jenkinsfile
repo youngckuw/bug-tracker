@@ -5,7 +5,8 @@ pipeline {
         stage('Unit Tests - Backend') {
             agent {
                 docker {
-                    image 'circleci/golang:1.16-stretch-node-browsers-legacy'
+                    image 'snakee/golang-junit:1.21'
+                    args '-u root:root'
                     reuseNode true
                 }
             }
