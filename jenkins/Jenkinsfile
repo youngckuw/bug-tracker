@@ -3,15 +3,14 @@ pipeline {
 
     stages {
         stage('Unit Tests - Backend') {
-            agent {
-                docker {
-                    image 'golang:1.20'
-                    args '-v /var/run/docker.sock:/var/run/docker.sock'
-                }
-            }
+            agent any
             steps {
                 dir('bugtracker-backend') {
-                    sh 'go test -v ./...'
+                    // Run tests inside the golang-junit image using the Docker CLI. This avoids
+                    // relying on the declarative "docker" agent (which requires the Docker
+                    // Pipeline plugin). The agent for the stage runs on any available node; that
+                    // node must have Docker available for this to work.
+                    sh 'docker run --rm -v "$PWD":/src -w /src snakee/golang-junit:1.21 sh -c "go test -v ./..."'
                 }
             }
         }
