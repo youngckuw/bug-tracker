@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Execute Unit Tests') {
             parallel {
-                steps('Unit Tests - Backend') {
+                stage('Unit Tests - Backend') {
                     agent {
                         docker {
                             image 'snakee/golang-junit:1.21'
@@ -13,9 +13,9 @@ pipeline {
                         }
                     }
                     steps {
-                        dir('bugtracker-backend') {
-                            // sh 'docker run --rm -v "$PWD":/src -w /src snakee/golang-junit:1.21 sh -c "go test -v ./..."'
-                            sh '''
+                        dir('bugtracker-backend') {                            
+                            sh 
+                            '''
                                 go test -v ./... 2>&1 | go-junit-report > test-results.xml
                                 go test -coverprofile=coverage.out -covermode=atomic ./...
                                 go tool cover -html=coverage.out -o coverage.html
@@ -35,7 +35,7 @@ pipeline {
                             ]
                         }
                     }
-                steps('Unit Tests - Frontend') {
+                stage('Unit Tests - Frontend') {
                     agent {
                         docker {
                             image 'node:20-alpine'
@@ -44,7 +44,8 @@ pipeline {
                     }
                     steps {
                         dir('bugtracker-frontend') {
-                            sh '''
+                            sh 
+                            '''
                                 npm ci
                                 npm test
                                 mkdir -p reports
