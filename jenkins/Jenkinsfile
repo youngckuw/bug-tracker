@@ -34,7 +34,6 @@ pipeline {
                             ]
                         }
                     }
-                }
                 stage('Unit Tests - Frontend') {
                     agent {
                         docker {
