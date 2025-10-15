@@ -4,8 +4,6 @@ pipeline {
     stages {
         stage('Execute Unit Tests') {
             parallel {
-
-                // -------- Backend ---------------------------------
                 stage('Unit Tests - Backend') {
                     agent {
                         docker {
@@ -14,9 +12,8 @@ pipeline {
                             reuseNode true
                         }
                     }
-
                     steps {
-                        dir('bugtracker-backend') {
+                        dir('bugtracker-backend') {                            
                             sh '''
                                 go test -v ./... 2>&1 | go-junit-report > test-results.xml
                                 go test -coverprofile=coverage.out -covermode=atomic ./...
@@ -27,20 +24,17 @@ pipeline {
                             '''
                         }
                     }
-
                     post {
                         always {
                             junit 'bugtracker-backend/test-results.xml'
                             publishHTML target: [
-                                reportDir  : 'bugtracker-backend/reports',
+                                reportDir: 'bugtracker-backend/reports',
                                 reportFiles: 'coverage.html',
-                                reportName : 'Backend Coverage Report'
+                                reportName: 'Backend Coverage Report',
                             ]
                         }
                     }
                 }
-
-                // -------- Frontend --------------------------------
                 stage('Unit Tests - Frontend') {
                     agent {
                         docker {
@@ -48,35 +42,29 @@ pipeline {
                             reuseNode true
                         }
                     }
-
                     steps {
                         dir('bugtracker-frontend') {
                             sh '''
                                 npm ci
-                                npm test -- --coverage
-                                mkdir -p reports/coverage
-                                mv coverage/* reports/coverage/
+                                npm test
+                                mkdir -p reports
+                                mv coverage reports/
                             '''
                         }
                     }
-
                     post {
                         always {
-                            // Assuming the front‑end test runner emits a JUnit XML file called
-                            // `test-results.xml`. If it doesn’t, remove this line or point to
-                            // the correct file.
                             junit 'bugtracker-frontend/test-results.xml'
-
                             publishHTML target: [
-                                reportDir  : 'bugtracker-frontend/reports/coverage',
+                                reportDir: 'bugtracker-frontend/reports/coverage',
                                 reportFiles: 'index.html',
-                                reportName : 'Frontend Coverage Report'
+                                reportName: 'Frontend Coverage Report',
                             ]
                         }
                     }
+                    }
                 }
-
-            }   // end parallel
-        }       // end Execute Unit Tests stage
-    }           // end stages
-}               // end pipeline
+            }
+        }
+    }
+}
