@@ -61,8 +61,7 @@ pipeline {
                                 reportName: 'Frontend Coverage Report',
                             ]
                         }
-                    }
-                    }
+                    }                    
                 }
             }
         }
