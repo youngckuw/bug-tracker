@@ -38,7 +38,7 @@ pipeline {
                             ]
                         }
                     }
-                },
+                }
 
                 // -------- Frontend --------------------------------
                 stage('Unit Tests - Frontend') {
