@@ -11,8 +11,9 @@ pipeline {
             }
             steps {
                 dir('bugtracker-backend') {
-                    env.GOCACHE = '/var/jenkins_home/workspace/test/.cache'
+                    withEnv(["GOCACHE=${env.WORKSPACE}/.cache"]) {
                     sh 'go test -v ./...'
+                    }
                 }
             }
         }
