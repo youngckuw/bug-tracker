@@ -135,7 +135,7 @@ pipeline {
         stage('Performance Tests') {
             agent {
                 docker {
-                    image `grafana/k6:latest`
+                    image 'grafana/k6:latest'
                     reuseNode true
                     args '-u 0 --network=host --entrypoint=""'
                 }
@@ -145,6 +145,15 @@ pipeline {
                     sh '''
                         k6 run script.js
                     '''
+                }
+            }
+            post {
+                always {                    
+                    publishHTML target: [
+                        reportDir: 'tests-perf',
+                        reportFiles: 'perf-results.html',
+                        reportName: 'Performance Test Results Report',
+                    ]
                 }
             }
         }
