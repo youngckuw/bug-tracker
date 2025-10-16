@@ -24,3 +24,4 @@ jobs:
         working-directory: ./bugtracker-backend
         run: |
           go test -v ./...
+          
