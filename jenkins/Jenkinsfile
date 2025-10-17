@@ -212,14 +212,11 @@ pipeline {
                     args '-u 0'
                 }
             }
-            environment: {
-                PLAYWRIGHT_API_BASE_URL = 'https://bugtracker-frontend-staging-young.fly.dev'
-                CI = '1'
-            }
             steps {
-                dir('tests') {
+                dir('tests-e2e') {
                     sh '''
-                        npx playwright test integration.spec.ts
+                        npm ci
+                        npx playwright test
                     '''
                 }
             }
@@ -229,7 +226,7 @@ pipeline {
                     publishHTML target: [
                         reportDir: 'tests-e2e/playwright-report',
                         reportFiles: 'index.html',
-                        reportName: 'Playwright Post Deployment Test Report',
+                        reportName: 'Playwright E2E Test Report',
                     ]
                 }
             }
