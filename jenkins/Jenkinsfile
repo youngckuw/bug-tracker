@@ -213,14 +213,13 @@ pipeline {
                 }
             }
             environment: {
-                PLAYWRIGHT_API_BASE_URL = 'https://bugtracker-frontend-staging-young.fly.dev/'
+                PLAYWRIGHT_API_BASE_URL = 'https://bugtracker-frontend-staging-young.fly.dev'
                 CI = '1'
             }
             steps {
-                dir('tests-e2e') {
+                dir('tests') {
                     sh '''
-                        npm ci
-                        npx playwright test --project=staging
+                        npx playwright test integration.spec.ts
                     '''
                 }
             }
