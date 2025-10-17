@@ -214,6 +214,7 @@ pipeline {
             }
             environment: {
                 PLAYWRIGHT_API_BASE_URL = 'https://bugtracker-frontend-staging-young.fly.dev/'
+                CI = '1'
             }
             steps {
                 dir('tests-e2e') {
