@@ -1,16 +1,22 @@
-# fly.toml app configuration file generated for bugtracker-frontend-young on 2025-10-17T13:39:24-07:00
+# fly.toml app configuration file generated for bugtracker-backend-young on 2025-10-17T13:25:13-07:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'bugtracker-frontend-young'
+app = 'bugtracker-backend-staging-young'
 primary_region = 'sjc'
 
-[build.args]
-  NEXT_PUBLIC_API_URL = "https://bugtracker-backend-young.fly.dev"
+[build]
+
+[mounts]
+  source="bugtracker_data"
+  destination="/data"
+
+[env]
+  DB_PATH = "/data/bugs.db"
 
 [http_service]
-  internal_port = 3000
+  internal_port = 8080
   force_https = true
   auto_stop_machines = 'stop'
   auto_start_machines = true

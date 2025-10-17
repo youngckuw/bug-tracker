@@ -3,11 +3,11 @@
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'bugtracker-frontend-young'
+app = 'bugtracker-frontend-staging-young'
 primary_region = 'sjc'
 
 [build.args]
-  NEXT_PUBLIC_API_URL = "https://bugtracker-backend-young.fly.dev"
+  NEXT_PUBLIC_API_URL = "https://bugtracker-backend-staging-young.fly.dev"
 
 [http_service]
   internal_port = 3000
