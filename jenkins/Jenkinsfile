@@ -168,8 +168,9 @@ pipeline {
                 FLYCTL_INSTALL = ${env.WORKSPACE.replaceAll(' ', '')}/.fly
                 PATH = '$FLYCTL_INSTALL/bin:$PATH'
                 HOME = '${WORKSPACE}'
-            }                
-            stage('Install Flyctl') {
+            }
+            stages {
+                stage('Install Flyctl') {
                 steps {                 
                     sh '''
                         mkdir -p $FLYCTL_INSTALL
@@ -196,6 +197,7 @@ pipeline {
                     }
                 }
             }
+            }        
         }
     }
     post {
