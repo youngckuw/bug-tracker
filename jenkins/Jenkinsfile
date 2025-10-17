@@ -179,24 +179,21 @@ pipeline {
                     '''
                 }
             }
-            stage('Deploy Backend') {
-                steps {
-                    dir('bugtracker-backend') {
-                        sh '''
-                            flyctl deploy -c fly.staging.toml --remote-only
-                        '''
+                stage('Deploy Backend') {
+                    steps {
+                        dir('bugtracker-backend') {
+                            sh 'flyctl deploy -c fly.staging.toml --remote-only'
+                        }
                     }
                 }
-            }
-            stage('Deploy Frontend') {
-                steps {
-                    dir('bugtracker-frontend') {
-                        sh '''
-                            flyctl deploy -c fly.staging.toml --remote-only
-                        '''
+
+                stage('Deploy Frontend') {
+                    steps {
+                        dir('bugtracker-frontend') {
+                            sh 'flyctl deploy -c fly.staging.toml --remote-only'
+                        }
                     }
                 }
-            }
             }        
         }
         stage('Post Deployment Tests') {
