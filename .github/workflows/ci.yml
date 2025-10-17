@@ -94,7 +94,7 @@ jobs:
           path: bugtracker-frontend/test-results.xml
           reporter: jest-junit
   
-  create-coverage-comment:
+  create-coverage-comment:    
     if: github.event_name == 'pull_request'
     needs: [unit-tests-backend, unit-tests-frontend]
     runs-on: ubuntu-latest
@@ -119,3 +119,15 @@ jobs:
             ```
             ${{ needs.unit-tests-frontend.outputs.coverage }}
             ```
+  
+  api-tests:
+    needs: [unit-tests-backend, unit-tests-frontend]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Launch Application
+        run: |
+          docker compose up --build -d
+          npx wait-port http://localhost:8080 -t 30000
