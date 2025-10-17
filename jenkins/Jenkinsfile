@@ -226,7 +226,7 @@ pipeline {
                     publishHTML target: [
                         reportDir: 'tests-e2e/playwright-report',
                         reportFiles: 'index.html',
-                        reportName: 'Playwright E2E Test Report',
+                        reportName: 'Playwright Post Deployment Test Report',
                     ]
                 }
             }
