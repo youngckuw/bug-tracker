@@ -166,7 +166,7 @@ pipeline {
             environment {
                 FLY_API_TOKEN = credentials("FLY_API_TOKEN")
                 FLYCTL_INSTALL = "${env.WORKSPACE.replaceAll(' ', '')}/.fly"
-                PATH = '$FLYCTL_INSTALL/bin:$PATH'
+                PATH+EXTRA = '$FLYCTL_INSTALL/bin:$PATH'
                 HOME = '${WORKSPACE}'
             }
             stages {
@@ -198,6 +198,41 @@ pipeline {
                 }
             }
             }        
+        }
+        stage('Post Deployment Tests') {
+            when {
+                expression {
+                    return env.GIT_BRANCH == 'origin/main'
+                }
+            }
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/playwright:v1.50.0-jammy'
+                    reuseNode true
+                    args '-u 0'
+                }
+            }
+            environment: {
+                PLAYWRIGHT_API_BASE_URL = 'https://bugtracker-frontend-staging-young.fly.dev/'
+            }
+            steps {
+                dir('tests-e2e') {
+                    sh '''
+                        npm ci
+                        npx playwright test --project=staging
+                    '''
+                }
+            }
+            post {
+                always {
+                    junit 'tests-e2e/test-results/results.xml'
+                    publishHTML target: [
+                        reportDir: 'tests-e2e/playwright-report',
+                        reportFiles: 'index.html',
+                        reportName: 'Playwright Post Deployment Test Report',
+                    ]
+                }
+            }
         }
     }
     post {
