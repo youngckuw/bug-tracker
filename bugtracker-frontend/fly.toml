@@ -7,7 +7,8 @@ app = 'bugtracker-frontend-young'
 primary_region = 'sjc'
 
 [build]
-
+  NEXT_PUBLIC_API_URL="https://bugtracker-backend-young.fly.dev"
+  
 [http_service]
   internal_port = 3000
   force_https = true
