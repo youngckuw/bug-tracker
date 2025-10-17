@@ -204,7 +204,6 @@ pipeline {
                 expression {
                     return env.GIT_BRANCH == 'origin/main'
                 }
-                CI = '1'
             }
             agent {
                 docker {
@@ -212,6 +211,10 @@ pipeline {
                     reuseNode true
                     args '-u 0'
                 }
+            }
+            environment {
+                PLAYWRIGHT_TEST_BASE_URL = 'https://bugtracker-staging-jameswillett.fly.dev'
+                CI = '1'
             }
             steps {
                 dir('tests-e2e') {
